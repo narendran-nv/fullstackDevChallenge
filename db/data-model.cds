@@ -5,6 +5,19 @@ using {
 
 namespace fullstack_dev_challenge;
 
-entity Tests {}
-entity Questions {}
-aspect Answers {}
+entity Tests : cuid, managed {
+    title       : String;
+    description : String;
+    questions   : Association to many Questions
+                      on questions.test = $self;
+}
+
+entity Questions : cuid {
+    text   : String;
+    test   : Association to one Tests;
+    answer : Composition of one Answers;
+}
+
+aspect Answers : cuid {
+    text : String;
+}
